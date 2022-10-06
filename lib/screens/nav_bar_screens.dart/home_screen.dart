@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:online_attendence_app/screens/create_class_screen.dart';
 import 'package:online_attendence_app/utils/screen_dimensions.dart';
 import 'package:online_attendence_app/widgets/custom_app_bar.dart';
+import 'package:online_attendence_app/widgets/custom_text_button.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -57,12 +59,14 @@ class HomeScreen extends StatelessWidget {
               ),
               Row(
                 children: [
-                  categoryContainer(
-                      context,
-                      'images/student.png',
-                      'Students',
+                  categoryContainer(context, 'images/student.png', 'Students',
                       'Teachers create classes and add students in each class',
-                      () {}),
+                      () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => CreateClassScreen()));
+                  }),
                   SizedBox(
                     width: 10,
                   ),
@@ -74,37 +78,11 @@ class HomeScreen extends StatelessWidget {
                       () {}),
                 ],
               ),
-              Container(
-                width: width(context),
-                height: height(context) * 8 / 100,
-                decoration: BoxDecoration(
-                    color: Color(0xFF06283D),
-                    borderRadius: BorderRadius.all(Radius.circular(15))),
-                child: TextButton(
-                  onPressed: () {},
-                  child: Row(
-                    children: [
-                      Expanded(
-                        child: Center(
-                          child: Text(
-                            'Generate Report',
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 17,
-                                fontWeight: FontWeight.w600),
-                          ),
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(right: 10),
-                        child: Icon(
-                          Icons.arrow_forward,
-                          color: Colors.white,
-                        ),
-                      )
-                    ],
-                  ),
-                ),
+              CustomTextButton(
+                buttonHeight: height(context) * 8 / 100,
+                action: () {},
+                title: 'Generate Report',
+                fontSize: 17,
               )
             ],
           ),

@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:online_attendence_app/screens/nav_bar_screens.dart/classes_list_screen.dart';
 import 'package:online_attendence_app/screens/nav_bar_screens.dart/departments_list_screen.dart';
 import 'package:online_attendence_app/screens/nav_bar_screens.dart/home_screen.dart';
-import 'package:online_attendence_app/widgets/custom_app_bar.dart';
 
 class NavBarControllerScreen extends StatefulWidget {
   NavBarControllerScreen({Key? key, this.initPageIndex = 0}) : super(key: key);
