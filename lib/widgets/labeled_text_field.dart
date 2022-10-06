@@ -41,7 +41,7 @@ class LabeledFormField extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 10),
           child: Container(
-            height: 60,
+            height: 50,
             decoration: BoxDecoration(
               color: Color(0xFF256D85).withOpacity(0.2),
               borderRadius: BorderRadius.all(Radius.circular(15)),

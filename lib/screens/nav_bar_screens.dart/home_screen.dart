@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:online_attendence_app/screens/create_class_screen.dart';
+import 'package:online_attendence_app/screens/create_department_screen.dart';
 import 'package:online_attendence_app/utils/screen_dimensions.dart';
 import 'package:online_attendence_app/widgets/custom_app_bar.dart';
 import 'package:online_attendence_app/widgets/custom_text_button.dart';
@@ -70,12 +71,14 @@ class HomeScreen extends StatelessWidget {
                   SizedBox(
                     width: 10,
                   ),
-                  categoryContainer(
-                      context,
-                      'images/teacher.png',
-                      'Teachers',
+                  categoryContainer(context, 'images/teacher.png', 'Teachers',
                       'Attendant create departments and add their respective employees',
-                      () {}),
+                      () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => CreateDepartmentScreen()));
+                  }),
                 ],
               ),
               CustomTextButton(

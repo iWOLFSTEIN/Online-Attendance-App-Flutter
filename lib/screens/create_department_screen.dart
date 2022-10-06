@@ -3,8 +3,9 @@ import 'package:online_attendence_app/screens/nav_bar_controller_screen.dart';
 import 'package:online_attendence_app/widgets/custom_text_button.dart';
 import 'package:online_attendence_app/widgets/labeled_text_field.dart';
 
-class CreateClassScreen extends StatelessWidget {
-  CreateClassScreen({Key? key}) : super(key: key);
+class CreateDepartmentScreen extends StatelessWidget {
+  CreateDepartmentScreen({Key? key}) : super(key: key);
+
   final formKey = GlobalKey();
   @override
   Widget build(BuildContext context) {
@@ -15,7 +16,7 @@ class CreateClassScreen extends StatelessWidget {
         shadowColor: Colors.white.withOpacity(0.4),
         iconTheme: IconThemeData(color: Colors.black),
         title: Text(
-          'Create Class',
+          'Create Department',
           style: TextStyle(color: Colors.black),
         ),
       ),
@@ -27,24 +28,25 @@ class CreateClassScreen extends StatelessWidget {
               child: Column(
                 children: [
                   LabeledFormField(
-                      label: 'School/College ', hintText: 'Enter name'),
+                      label: 'Department ', hintText: 'Enter name'),
                   SizedBox(
                     height: 25,
                   ),
                   LabeledFormField(
-                      label: 'Semester/Section ', hintText: 'Enter name'),
+                      label: 'Organization ', hintText: 'Enter name'),
                   SizedBox(
                     height: 25,
                   ),
-                  LabeledFormField(label: 'Program ', hintText: 'Enter name'),
+                  LabeledFormField(label: 'Field ', hintText: 'Enter name'),
                   SizedBox(
                     height: 25,
                   ),
-                  LabeledFormField(label: 'Subject ', hintText: 'Enter name'),
+                  LabeledFormField(label: 'Location ', hintText: 'Enter name'),
                   SizedBox(
                     height: 25,
                   ),
-                  LabeledFormField(label: 'Session ', hintText: 'Enter name'),
+                  LabeledFormField(
+                      label: 'Profession ', hintText: 'Enter name'),
                   SizedBox(
                     height: 50,
                   ),
@@ -57,11 +59,11 @@ class CreateClassScreen extends StatelessWidget {
                             context,
                             MaterialPageRoute(
                                 builder: (context) => NavBarControllerScreen(
-                                      initPageIndex: 1,
+                                      initPageIndex: 2,
                                     )),
                             (route) => false);
                       },
-                      title: 'Create Class',
+                      title: 'Create Department',
                       fontSize: 17,
                     ),
                   )
