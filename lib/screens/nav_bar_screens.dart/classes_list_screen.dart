@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:online_attendence_app/screens/add_student_screen.dart';
+import 'package:online_attendence_app/screens/attendance_screen.dart';
 import 'package:online_attendence_app/widgets/attendance_card.dart';
 import 'package:online_attendence_app/widgets/exit_alert_dialogue.dart';
 
@@ -28,7 +29,14 @@ class ClassesListScreen extends StatelessWidget {
       Navigator.push(
           context, MaterialPageRoute(builder: (context) => AddStudentScreen()));
     };
-    var attendanceAction = () {};
+    var attendanceAction = () {
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => AttendanceScreen(
+                    person: 'Students',
+                  )));
+    };
     return Scaffold(
       backgroundColor: Color(0xFFEAF6F6),
       appBar: AppBar(

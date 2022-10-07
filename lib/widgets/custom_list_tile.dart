@@ -10,7 +10,7 @@ class CustomListTile extends StatelessWidget {
 
   final String title;
   final String id;
-  final Container trailingWidget;
+  final Widget trailingWidget;
 
   @override
   Widget build(BuildContext context) {
@@ -52,14 +52,15 @@ class CustomListTile extends StatelessWidget {
             ),
             trailingWidget
             // (showCheckBox)
-            //     ? Checkbox(
-            //         value: checkBoxValue,
-            //         onChanged: (value) {
-            //           if (value != null)
-            //             setState(() {
-            //               checkBoxValue = value;
-            //             });
-            //         })
+            // ?
+            //  Checkbox(
+            //     value: checkBoxValue,
+            //     onChanged: (value) {
+            //       if (value != null)
+            //         setState(() {
+            //           checkBoxValue = value;
+            //         });
+            //     })
             //     : Container(),
           ],
         ),
