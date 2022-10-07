@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:online_attendence_app/screens/create_class_screen.dart';
 import 'package:online_attendence_app/screens/create_department_screen.dart';
+import 'package:online_attendence_app/screens/generate_report_screen.dart';
 import 'package:online_attendence_app/utils/screen_dimensions.dart';
 import 'package:online_attendence_app/widgets/custom_app_bar.dart';
 import 'package:online_attendence_app/widgets/custom_text_button.dart';
@@ -83,7 +84,12 @@ class HomeScreen extends StatelessWidget {
               ),
               CustomTextButton(
                 buttonHeight: height(context) * 8 / 100,
-                action: () {},
+                action: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => GenerateReportScreen()));
+                },
                 title: 'Generate Report',
                 fontSize: 17,
               )
