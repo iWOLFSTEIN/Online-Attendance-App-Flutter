@@ -1,21 +1,27 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:online_attendence_app/constants/network_objects.dart';
+import 'package:online_attendence_app/constants/user_constants.dart';
+import 'package:online_attendence_app/models/class.dart';
 import 'package:online_attendence_app/screens/add_student_screen.dart';
 import 'package:online_attendence_app/screens/attendance_screen.dart';
+import 'package:online_attendence_app/services/Firebase/deletion.dart';
+import 'package:online_attendence_app/services/Firebase/queries.dart';
+import 'package:online_attendence_app/utils/screen_dimensions.dart';
 import 'package:online_attendence_app/widgets/attendance_card.dart';
 import 'package:online_attendence_app/widgets/exit_alert_dialogue.dart';
 
 class ClassesListScreen extends StatelessWidget {
-  const ClassesListScreen({Key? key}) : super(key: key);
-
+  ClassesListScreen({Key? key}) : super(key: key);
+  Deletion deletion = Deletion();
   @override
   Widget build(BuildContext context) {
-    var title = 'Data Science Class';
-    var members = 52;
-    var institution = 'Bahria University Karachi Campus';
     var deleteAction = () {
       var alert = ExitAlertDialogue(
         message: 'Delete this class?',
         action: () {
+          deletion.deleteClass(classId: '');
           Navigator.pop(context);
         },
       );
@@ -47,24 +53,66 @@ class ClassesListScreen extends StatelessWidget {
           style: TextStyle(color: Colors.black),
         ),
       ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-          child: Column(
-            children: [
-              for (int i = 0; i < 2; i++)
-                AttendanceCard(
-                    isClass: true,
-                    title: title,
-                    deleteAction: deleteAction,
-                    members: members,
-                    institution: institution,
-                    addAction: addAction,
-                    attendanceAction: attendanceAction)
-            ],
-          ),
-        ),
-      ),
+      body: StreamBuilder(
+          stream: getClasses,
+          builder: (context, snapshot) {
+            if (!snapshot.hasData)
+              return Container(
+                child: Center(
+                  child: CircularProgressIndicator(),
+                ),
+              );
+
+            if (listEquals(snapshot.data!.docs, []))
+              return Container(
+                child: Center(
+                    child: Text(
+                  'No Classes Available',
+                  style: TextStyle(color: Color(0xFF06283D).withOpacity(0.4)),
+                )),
+              );
+
+            List<Widget> widgetsList = [];
+            for (var document in snapshot.data!.docs) {
+              final classModel = Class.fromDocument(document);
+              final classModelId = document.id;
+
+              var widget = AttendanceCard(
+                  isClass: true,
+                  title: classModel.subject!,
+                  deleteAction: () {
+                    var alert = ExitAlertDialogue(
+                      message: 'Delete this class?',
+                      action: () {
+                        deletion.deleteClass(classId: classModelId);
+                        Navigator.pop(context);
+                      },
+                    );
+                    showDialog(
+                        context: context,
+                        builder: (context) {
+                          return alert;
+                        });
+                  },
+                  program: classModel.program,
+                  semester: classModel.semesterSection,
+                  members: 0,
+                  institution: classModel.schoolCollege!,
+                  addAction: addAction,
+                  attendanceAction: attendanceAction);
+
+              widgetsList.add(widget);
+            }
+            return SingleChildScrollView(
+              child: Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+                child: Column(
+                  children: widgetsList,
+                ),
+              ),
+            );
+          }),
     );
   }
 }

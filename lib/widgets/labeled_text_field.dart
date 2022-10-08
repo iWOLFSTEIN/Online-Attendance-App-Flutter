@@ -5,10 +5,14 @@ class LabeledFormField extends StatelessWidget {
     Key? key,
     required this.label,
     required this.hintText,
+    this.controller,
+    this.onValidate,
   }) : super(key: key);
 
   final String label;
   final String hintText;
+  final controller;
+  final onValidate;
 
   @override
   Widget build(BuildContext context) {
@@ -40,28 +44,27 @@ class LabeledFormField extends StatelessWidget {
         ),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 10),
-          child: Container(
-            height: 50,
-            decoration: BoxDecoration(
-              color: Color(0xFF256D85).withOpacity(0.2),
-              borderRadius: BorderRadius.all(Radius.circular(15)),
-              // border: Border.all(color: Color(0xFF256D85))
-            ),
-            child: Center(
-              child: TextFormField(
-                style: TextStyle(color: Color(0xFF06283D), fontSize: 18),
-                decoration: InputDecoration(
-                    border: InputBorder.none,
-                    focusedBorder: InputBorder.none,
-                    isCollapsed: true,
-                    contentPadding:
-                        EdgeInsets.symmetric(horizontal: 20, vertical: 0),
-                    hintText: hintText,
-                    hintStyle: TextStyle(
-                        color: Color(0xFF06283D).withOpacity(0.4),
-                        fontSize: 18)),
-              ),
-            ),
+          child: TextFormField(
+            controller: controller,
+            validator: onValidate,
+            style: TextStyle(color: Color(0xFF06283D), fontSize: 18),
+            decoration: InputDecoration(
+                filled: true,
+                fillColor: Color(0xFF256D85).withOpacity(0.2),
+                border: OutlineInputBorder(
+                  borderSide: BorderSide.none,
+                  borderRadius: BorderRadius.circular(15),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderSide: BorderSide.none,
+                  borderRadius: BorderRadius.circular(15),
+                ),
+                isCollapsed: true,
+                contentPadding:
+                    EdgeInsets.symmetric(horizontal: 20, vertical: 14.5),
+                hintText: hintText,
+                hintStyle: TextStyle(
+                    color: Color(0xFF06283D).withOpacity(0.4), fontSize: 18)),
           ),
         )
       ],

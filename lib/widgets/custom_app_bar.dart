@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:online_attendence_app/constants/network_objects.dart';
 import 'package:online_attendence_app/screens/login_screen.dart';
-import 'package:online_attendence_app/utils/screen_dimensions.dart';
 import 'package:online_attendence_app/widgets/exit_alert_dialogue.dart';
 
 class CustomAppBar extends StatelessWidget {

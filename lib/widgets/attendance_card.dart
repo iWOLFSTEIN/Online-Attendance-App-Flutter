@@ -10,6 +10,8 @@ class AttendanceCard extends StatelessWidget {
       required this.institution,
       required this.addAction,
       required this.attendanceAction,
+      required this.program,
+      required this.semester,
       required this.isClass})
       : super(key: key);
 
@@ -20,6 +22,8 @@ class AttendanceCard extends StatelessWidget {
   final Null Function() addAction;
   final Null Function() attendanceAction;
   final bool isClass;
+  final semester;
+  final program;
 
   @override
   Widget build(BuildContext context) {
@@ -80,12 +84,44 @@ class AttendanceCard extends StatelessWidget {
                     SizedBox(
                       height: 10,
                     ),
-                    Text(
-                      'Total members: $members',
-                      style: TextStyle(
-                        fontSize: 17,
-                        color: Color(0xFF06283D).withOpacity(0.4),
-                      ),
+                    Row(
+                      children: [
+                        Text(
+                          '$program',
+                          style: TextStyle(
+                            fontSize: 17,
+                            color: Color(0xFF06283D).withOpacity(0.4),
+                          ),
+                        ),
+                        SizedBox(
+                          width: 12.5,
+                        ),
+                        Text(
+                          '$semester',
+                          style: TextStyle(
+                            fontSize: 17,
+                            color: Color(0xFF06283D).withOpacity(0.4),
+                          ),
+                        ),
+                        SizedBox(
+                          width: 12.5,
+                        ),
+                        Icon(
+                          Icons.person,
+                          color: Color(0xFF06283D).withOpacity(0.4),
+                          size: 17,
+                        ),
+                        SizedBox(
+                          width: 5,
+                        ),
+                        Text(
+                          '$members',
+                          style: TextStyle(
+                            fontSize: 17,
+                            color: Color(0xFF06283D).withOpacity(0.4),
+                          ),
+                        ),
+                      ],
                     ),
                     SizedBox(
                       height: 10,

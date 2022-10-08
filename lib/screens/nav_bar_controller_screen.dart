@@ -15,12 +15,13 @@ class NavBarControllerScreen extends StatefulWidget {
 
 class _NavBarControllerScreenState extends State<NavBarControllerScreen> {
   late PageController controller;
-  var pageIndex = 0;
+  var pageIndex;
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
+    pageIndex = widget.initPageIndex;
     controller = PageController(initialPage: widget.initPageIndex);
   }
 
@@ -59,12 +60,11 @@ class _NavBarControllerScreenState extends State<NavBarControllerScreen> {
           onTap: (index) {
             setState(() {
               pageIndex = index;
+              controller.jumpToPage(pageIndex);
               // controller.animateToPage(pageIndex,
               //     duration: const Duration(milliseconds: 800),
               //     curve: Curves.linearToEaseOut);
             });
-
-            controller.jumpToPage(pageIndex);
           },
           iconSize: 29,
           items: [

@@ -56,6 +56,8 @@ class DepartmenstListScreen extends StatelessWidget {
                 AttendanceCard(
                     isClass: false,
                     title: title,
+                    semester: '7th',
+                    program: 'bscs',
                     deleteAction: deleteAction,
                     members: members,
                     institution: institution,
