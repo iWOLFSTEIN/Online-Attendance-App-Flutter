@@ -1,5 +1,6 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+import 'package:online_attendence_app/constants/network_objects.dart';
 import 'package:online_attendence_app/screens/nav_bar_controller_screen.dart';
 import 'package:online_attendence_app/utils/screen_dimensions.dart';
 import 'package:online_attendence_app/widgets/exit_alert_dialogue.dart';
@@ -84,48 +85,30 @@ class _LoginScreenState extends State<LoginScreen> {
                 children: [
                   Text(
                     "Take attendance of your class, school or university anywhere, anytime",
-                    style:
-                        // GoogleFonts.montserrat(
-                        //   textStyle:
-                        TextStyle(
-                            fontSize: 18, color: Colors.black.withOpacity(0.4)),
-                    // ),
+                    style: TextStyle(
+                        fontSize: 18, color: Colors.black.withOpacity(0.4)),
                   )
                 ],
               ),
-              // SizedBox(),
               SizedBox(
                 height: 50,
                 child: ElevatedButton(
                     onPressed: () async {
-                      Navigator.pushAndRemoveUntil(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => NavBarControllerScreen()),
-                          (route) => false);
-                      // try {
-                      //   User? user =
-                      //       await googleSignInServices.signInWithGoogle();
+                      try {
+                        User? user =
+                            await googleSignInServices.signInWithGoogle();
 
-                      //   if (user != null) {
-                      //     var isLocationPermissionGranted =
-                      //         await isLocationEnabled();
-                      //     if (isLocationPermissionGranted) {
-                      //       Navigator.pushAndRemoveUntil(context,
-                      //           MaterialPageRoute(builder: (context) {
-                      //         return ControllerScreen();
-                      //       }), (route) => false);
-                      //     } else {
-                      //       Navigator.pushAndRemoveUntil(context,
-                      //           MaterialPageRoute(builder: (context) {
-                      //         return ProminentDisclosureScreen();
-                      //       }), (route) => false);
-                      //     }
-                      //   }
-                      // } catch (e) {
-                      //   print(e.toString());
-                      //   errorAlert(context);
-                      // }
+                        if (user != null) {
+                          Navigator.pushAndRemoveUntil(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      NavBarControllerScreen()),
+                              (route) => false);
+                        }
+                      } catch (e) {
+                        print(e.toString());
+                      }
                     },
                     style: ElevatedButton.styleFrom(primary: Colors.black
                         // Color(0xFF14213D),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:online_attendence_app/constants/network_objects.dart';
 import 'package:online_attendence_app/screens/login_screen.dart';
 import 'package:online_attendence_app/utils/screen_dimensions.dart';
 import 'package:online_attendence_app/widgets/exit_alert_dialogue.dart';
@@ -32,11 +33,14 @@ class CustomAppBar extends StatelessWidget {
             onTap: (() {
               var alert = ExitAlertDialogue(
                 message: 'Do you want to logout?',
-                action: () {
-                  Navigator.pushAndRemoveUntil(
-                      context,
-                      MaterialPageRoute(builder: (context) => LoginScreen()),
-                      (route) => false);
+                action: () async {
+                  try {
+                    Navigator.pushAndRemoveUntil(
+                        context,
+                        MaterialPageRoute(builder: (context) => LoginScreen()),
+                        (route) => false);
+                    googleSignInServices.signOutGoogle();
+                  } catch (e) {}
                 },
               );
               showDialog(
