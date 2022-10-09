@@ -33,4 +33,18 @@ class Updation {
         .doc(attendanceId)
         .update({'attendance': attendance});
   }
+
+  updateTeacherAttendance(
+      {required departmentId,
+      required attendanceId,
+      required attendance}) async {
+    await firebaseFirestore
+        .collection('users')
+        .doc(uid)
+        .collection('departments')
+        .doc(departmentId)
+        .collection('attendances')
+        .doc(attendanceId)
+        .update({'attendance': attendance});
+  }
 }

@@ -1,28 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:online_attendence_app/models/attendance.dart';
-import 'package:online_attendence_app/services/firebase/updation.dart';
+import 'package:online_attendence_app/services/Firebase/updation.dart';
 import 'package:online_attendence_app/utils/sort_map.dart';
 import 'package:online_attendence_app/widgets/custom_list_tile.dart';
-import "dart:collection";
+import 'package:online_attendence_app/widgets/title_bar.dart';
 
-import '../widgets/title_bar.dart';
-
-class MarkClassAttendance extends StatefulWidget {
-  const MarkClassAttendance({
-    Key? key,
-    this.attendanceModel,
-    this.classId,
-    this.attentanceId,
-  }) : super(key: key);
-  final classId;
+class MarkDepartmentAttendance extends StatefulWidget {
+  MarkDepartmentAttendance(
+      {Key? key, this.attendanceModel, this.attentanceId, this.departmentId})
+      : super(key: key);
+  final departmentId;
   final attentanceId;
   final Attendance? attendanceModel;
-
   @override
-  State<MarkClassAttendance> createState() => _MarkClassAttendanceState();
+  State<MarkDepartmentAttendance> createState() =>
+      _MarkDepartmentAttendanceState();
 }
 
-class _MarkClassAttendanceState extends State<MarkClassAttendance> {
+class _MarkDepartmentAttendanceState extends State<MarkDepartmentAttendance> {
   Updation updation = Updation();
   @override
   void initState() {
@@ -43,7 +38,7 @@ class _MarkClassAttendanceState extends State<MarkClassAttendance> {
             trailingWidget: Checkbox(
                 value: subValue,
                 onChanged: (value) {
-                  updateStudentAttendance(context, key, subKey, value);
+                  updateTeacherAttendance(context, key, subKey, value);
                 }));
         widgetsList.add(widget);
       });
@@ -55,7 +50,7 @@ class _MarkClassAttendanceState extends State<MarkClassAttendance> {
         shadowColor: Colors.white.withOpacity(0.4),
         iconTheme: IconThemeData(color: Colors.black),
         title: Text(
-          'Mark Class Attendance',
+          'Mark Department Attendance',
           style: TextStyle(color: Colors.black),
         ),
       ),
@@ -81,13 +76,14 @@ class _MarkClassAttendanceState extends State<MarkClassAttendance> {
     );
   }
 
-  updateStudentAttendance(context, key, subKey, value) async {
+  updateTeacherAttendance(
+      BuildContext context, key, subKey, bool? value) async {
     try {
       setState(() {
         widget.attendanceModel!.attendance![key][subKey] = value;
       });
-      await updation.updateStudentAttendance(
-          classId: widget.classId,
+      await updation.updateTeacherAttendance(
+          departmentId: widget.departmentId,
           attendanceId: widget.attentanceId,
           attendance: widget.attendanceModel!.attendance);
     } catch (e) {}

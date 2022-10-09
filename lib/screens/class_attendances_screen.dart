@@ -61,12 +61,13 @@ class _ClassAttendancesScreenState extends State<ClassAttendancesScreen> {
               for (var miniMap in attendanceModel.attendance!.values) {
                 if (miniMap.values.first) studentsPresent += 1;
               }
-              // attendanceModel.attendance = Map.fromEntries(
-              //     attendanceModel.attendance!.entries.toList()
-              //       ..sort((e1, e2) => e1.key.compareTo(e2.key)));
+              var dateTime = DateTime.now();
+              var creationTime = attendanceModel.creationTime;
+
+              var timeDifference = dateTime.difference(creationTime!).inHours;
 
               var widget = AttendanceListTile(
-                  i: 0,
+                  i: (timeDifference <= 24) ? 0 : 1,
                   action: () {
                     Navigator.push(
                         context,

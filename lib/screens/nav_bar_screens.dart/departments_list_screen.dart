@@ -9,6 +9,8 @@ import 'package:online_attendence_app/utils/stream_builder_states.dart';
 import 'package:online_attendence_app/widgets/attendance_card.dart';
 import 'package:online_attendence_app/widgets/exit_alert_dialogue.dart';
 
+import '../department_attendances_screen.dart';
+
 class DepartmenstListScreen extends StatefulWidget {
   DepartmenstListScreen({Key? key}) : super(key: key);
 
@@ -74,13 +76,12 @@ class _DepartmenstListScreenState extends State<DepartmenstListScreen> {
                                 )));
                   },
                   attendanceAction: () {
-                    // Navigator.push(
-                    //     context,
-                    //     MaterialPageRoute(
-                    //         builder: (context) => AttendanceScreen(
-                    //               persons: 'teachers',
-                    //               classOrDepartmentId: departmentId,
-                    //             )));
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => DepartmentAttendanceScreen(
+                                  departmentId: departmentId,
+                                )));
                   });
 
               widgetsList.add(widget);

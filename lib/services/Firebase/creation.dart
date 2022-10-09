@@ -56,4 +56,16 @@ class Creation {
         .collection('attendances')
         .add(attendanceModel.toMap());
   }
+
+  createDepartmentAttendance(
+      {required Attendance attendanceModel,
+      required String departmentId}) async {
+    await firebaseFirestore
+        .collection('users')
+        .doc(uid)
+        .collection('departments')
+        .doc(departmentId)
+        .collection('attendances')
+        .add(attendanceModel.toMap());
+  }
 }

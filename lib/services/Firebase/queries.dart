@@ -48,6 +48,16 @@ Future getStudentsFutureData({required classId}) {
       .get();
 }
 
+Future getTeachersFutureData({required departmentId}) {
+  return firebaseFirestore
+      .collection('users')
+      .doc(uid)
+      .collection('departments')
+      .doc(departmentId)
+      .collection('teachers')
+      .get();
+}
+
 Stream getStudentsAttendances({required classId}) {
   return firebaseFirestore
       .collection('users')
