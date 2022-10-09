@@ -1,5 +1,6 @@
 import 'package:online_attendence_app/constants/network_objects.dart';
 import 'package:online_attendence_app/constants/user_constants.dart';
+import 'package:online_attendence_app/models/attendance.dart';
 import 'package:online_attendence_app/models/class.dart';
 import 'package:online_attendence_app/models/department.dart';
 import 'package:online_attendence_app/models/student.dart';
@@ -43,5 +44,16 @@ class Creation {
         .doc(departmentId)
         .collection('teachers')
         .add(teacherModel.toMap());
+  }
+
+  createClassAttendance(
+      {required Attendance attendanceModel, required String classId}) async {
+    await firebaseFirestore
+        .collection('users')
+        .doc(uid)
+        .collection('classes')
+        .doc(classId)
+        .collection('attendances')
+        .add(attendanceModel.toMap());
   }
 }

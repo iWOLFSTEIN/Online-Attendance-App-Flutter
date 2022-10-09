@@ -21,4 +21,16 @@ class Updation {
         .doc(departmentId)
         .update({'members': members});
   }
+
+  updateStudentAttendance(
+      {required classId, required attendanceId, required attendance}) async {
+    await firebaseFirestore
+        .collection('users')
+        .doc(uid)
+        .collection('classes')
+        .doc(classId)
+        .collection('attendances')
+        .doc(attendanceId)
+        .update({'attendance': attendance});
+  }
 }

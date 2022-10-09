@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:online_attendence_app/models/teacher.dart';
-import 'package:online_attendence_app/services/Firebase/queries.dart';
+import 'package:online_attendence_app/services/firebase/queries.dart';
 import 'package:online_attendence_app/widgets/add_person_button.dart';
 import 'package:online_attendence_app/widgets/custom_list_tile.dart';
 import 'package:online_attendence_app/widgets/labeled_text_field.dart';
 
-import '../services/Firebase/creation.dart';
-import '../services/Firebase/updation.dart';
+import '../services/firebase/creation.dart';
+import '../services/firebase/updation.dart';
 import '../utils/error_alert.dart';
 
 class AddTeacherScreen extends StatefulWidget {

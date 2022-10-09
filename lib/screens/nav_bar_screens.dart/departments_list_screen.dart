@@ -2,9 +2,9 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:online_attendence_app/models/department.dart';
 import 'package:online_attendence_app/screens/add_teacher_screen.dart';
-import 'package:online_attendence_app/screens/attendance_screen.dart';
-import 'package:online_attendence_app/services/Firebase/deletion.dart';
-import 'package:online_attendence_app/services/Firebase/queries.dart';
+import 'package:online_attendence_app/screens/class_attendances_screen.dart';
+import 'package:online_attendence_app/services/firebase/deletion.dart';
+import 'package:online_attendence_app/services/firebase/queries.dart';
 import 'package:online_attendence_app/utils/stream_builder_states.dart';
 import 'package:online_attendence_app/widgets/attendance_card.dart';
 import 'package:online_attendence_app/widgets/exit_alert_dialogue.dart';
@@ -21,14 +21,6 @@ class _DepartmenstListScreenState extends State<DepartmenstListScreen> {
 
   @override
   Widget build(BuildContext context) {
-    var attendanceAction = () {
-      Navigator.push(
-          context,
-          MaterialPageRoute(
-              builder: (context) => AttendanceScreen(
-                    person: 'Teachers',
-                  )));
-    };
     return Scaffold(
       backgroundColor: Color(0xFFEAF6F6),
       appBar: AppBar(
@@ -81,7 +73,15 @@ class _DepartmenstListScreenState extends State<DepartmenstListScreen> {
                                   members: departmentModel.members,
                                 )));
                   },
-                  attendanceAction: attendanceAction);
+                  attendanceAction: () {
+                    // Navigator.push(
+                    //     context,
+                    //     MaterialPageRoute(
+                    //         builder: (context) => AttendanceScreen(
+                    //               persons: 'teachers',
+                    //               classOrDepartmentId: departmentId,
+                    //             )));
+                  });
 
               widgetsList.add(widget);
             }

@@ -3,7 +3,7 @@ import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:online_attendence_app/constants/user_constants.dart';
 import 'package:online_attendence_app/models/class.dart';
 import 'package:online_attendence_app/screens/nav_bar_controller_screen.dart';
-import 'package:online_attendence_app/services/Firebase/creation.dart';
+import 'package:online_attendence_app/services/firebase/creation.dart';
 import 'package:online_attendence_app/utils/error_alert.dart';
 import 'package:online_attendence_app/widgets/custom_text_button.dart';
 import 'package:online_attendence_app/widgets/labeled_text_field.dart';
@@ -137,6 +137,7 @@ class _CreateClassScreenState extends State<CreateClassScreen> {
   createClass(context, schoolCollege, semesterSection, program, subject,
       session) async {
     try {
+      final dateTime = DateTime.now();
       setState(() {
         isCreating = true;
       });

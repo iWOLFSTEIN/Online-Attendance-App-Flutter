@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:online_attendence_app/constants/user_constants.dart';
 import 'package:online_attendence_app/models/department.dart';
 import 'package:online_attendence_app/screens/nav_bar_controller_screen.dart';
-import 'package:online_attendence_app/services/Firebase/creation.dart';
+import 'package:online_attendence_app/services/firebase/creation.dart';
 import 'package:online_attendence_app/utils/error_alert.dart';
 import 'package:online_attendence_app/widgets/custom_text_button.dart';
 import 'package:online_attendence_app/widgets/labeled_text_field.dart';
@@ -139,6 +139,7 @@ class _CreateDepartmentScreenState extends State<CreateDepartmentScreen> {
   createDepartment(
       context, department, organization, field, location, profession) async {
     try {
+      final dateTime = DateTime.now();
       setState(() {
         isCreating = true;
       });

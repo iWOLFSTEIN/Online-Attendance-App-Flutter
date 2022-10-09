@@ -38,7 +38,7 @@ class Class {
       'subject': subject,
       'session': session,
       'members': members,
-      'creationTime': dateTime
+      'creationTime': creationTime
     };
   }
 }

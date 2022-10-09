@@ -38,7 +38,7 @@ class Department {
       'location': location,
       'profession': profession,
       'members': members,
-      'creationTime': dateTime
+      'creationTime': creationTime
     };
   }
 }
