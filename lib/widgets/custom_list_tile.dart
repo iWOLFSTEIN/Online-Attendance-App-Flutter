@@ -32,7 +32,7 @@ class CustomListTile extends StatelessWidget {
                     title,
                     style: TextStyle(
                       color: Color(0xFF06283D),
-                      fontSize: 19,
+                      fontSize: 18,
                       // fontWeight: FontWeight.w600
                     ),
                   ),
@@ -43,7 +43,7 @@ class CustomListTile extends StatelessWidget {
                     id,
                     style: TextStyle(
                       color: Color(0xFF06283D).withOpacity(0.4),
-                      fontSize: 15,
+                      fontSize: 14.5,
                       // fontWeight: FontWeight.w600
                     ),
                   ),

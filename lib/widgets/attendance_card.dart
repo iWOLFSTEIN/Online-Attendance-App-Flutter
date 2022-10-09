@@ -60,9 +60,9 @@ class AttendanceCard extends StatelessWidget {
                               child: Text(
                                 title,
                                 style: TextStyle(
-                                    fontSize: 28,
+                                    fontSize: 26,
                                     color: Color(0xFF06283D),
-                                    fontWeight: FontWeight.w600),
+                                    fontWeight: FontWeight.w400),
                               ),
                             ),
                           ),
