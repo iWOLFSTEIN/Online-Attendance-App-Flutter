@@ -7,6 +7,7 @@ class Class {
   String? program;
   String? subject;
   String? session;
+  int? members;
   DateTime? creationTime;
 
   Class(
@@ -15,6 +16,7 @@ class Class {
       required this.program,
       required this.subject,
       required this.session,
+      required this.members,
       required this.creationTime});
 
   factory Class.fromDocument(QueryDocumentSnapshot document) {
@@ -24,6 +26,7 @@ class Class {
         program: document['program'],
         subject: document['subject'],
         session: document['session'],
+        members: document['members'],
         creationTime: document['creationTime'].toDate());
   }
 
@@ -34,6 +37,7 @@ class Class {
       'program': program,
       'subject': subject,
       'session': session,
+      'members': members,
       'creationTime': dateTime
     };
   }
