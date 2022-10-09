@@ -1,12 +1,36 @@
 import 'package:flutter/material.dart';
+import 'package:online_attendence_app/constants/user_constants.dart';
+import 'package:online_attendence_app/models/department.dart';
 import 'package:online_attendence_app/screens/nav_bar_controller_screen.dart';
+import 'package:online_attendence_app/services/Firebase/creation.dart';
+import 'package:online_attendence_app/utils/error_alert.dart';
 import 'package:online_attendence_app/widgets/custom_text_button.dart';
 import 'package:online_attendence_app/widgets/labeled_text_field.dart';
 
-class CreateDepartmentScreen extends StatelessWidget {
+class CreateDepartmentScreen extends StatefulWidget {
   CreateDepartmentScreen({Key? key}) : super(key: key);
 
-  final formKey = GlobalKey();
+  @override
+  State<CreateDepartmentScreen> createState() => _CreateDepartmentScreenState();
+}
+
+class _CreateDepartmentScreenState extends State<CreateDepartmentScreen> {
+  final formKey = GlobalKey<FormState>();
+
+  final department = TextEditingController();
+
+  final organization = TextEditingController();
+
+  final field = TextEditingController();
+
+  final location = TextEditingController();
+
+  final profession = TextEditingController();
+
+  final creation = Creation();
+
+  bool isCreating = false;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -28,25 +52,62 @@ class CreateDepartmentScreen extends StatelessWidget {
               child: Column(
                 children: [
                   LabeledFormField(
-                      label: 'Department ', hintText: 'Enter name'),
+                      controller: department,
+                      onValidate: (value) {
+                        if (value.isEmpty || value == null) {
+                          return "Value required!";
+                        }
+                      },
+                      label: 'Department ',
+                      hintText: 'Enter name'),
                   SizedBox(
                     height: 25,
                   ),
                   LabeledFormField(
-                      label: 'Organization ', hintText: 'Enter name'),
-                  SizedBox(
-                    height: 25,
-                  ),
-                  LabeledFormField(label: 'Field ', hintText: 'Enter name'),
-                  SizedBox(
-                    height: 25,
-                  ),
-                  LabeledFormField(label: 'Location ', hintText: 'Enter name'),
+                      controller: organization,
+                      onValidate: (value) {
+                        if (value.isEmpty || value == null) {
+                          return "Value required!";
+                        }
+                      },
+                      label: 'Organization ',
+                      hintText: 'Enter name'),
                   SizedBox(
                     height: 25,
                   ),
                   LabeledFormField(
-                      label: 'Profession ', hintText: 'Enter name'),
+                      controller: field,
+                      onValidate: (value) {
+                        if (value.isEmpty || value == null) {
+                          return "Value required!";
+                        }
+                      },
+                      label: 'Field ',
+                      hintText: 'Enter name'),
+                  SizedBox(
+                    height: 25,
+                  ),
+                  LabeledFormField(
+                      controller: location,
+                      onValidate: (value) {
+                        if (value.isEmpty || value == null) {
+                          return "Value required!";
+                        }
+                      },
+                      label: 'Location ',
+                      hintText: 'Enter name'),
+                  SizedBox(
+                    height: 25,
+                  ),
+                  LabeledFormField(
+                      controller: profession,
+                      onValidate: (value) {
+                        if (value.isEmpty || value == null) {
+                          return "Value required!";
+                        }
+                      },
+                      label: 'Profession ',
+                      hintText: 'Enter name'),
                   SizedBox(
                     height: 50,
                   ),
@@ -55,13 +116,14 @@ class CreateDepartmentScreen extends StatelessWidget {
                     child: CustomTextButton(
                       buttonHeight: 50,
                       action: () {
-                        Navigator.pushAndRemoveUntil(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => NavBarControllerScreen(
-                                      initPageIndex: 2,
-                                    )),
-                            (route) => false);
+                        if (formKey.currentState!.validate())
+                          createDepartment(
+                              context,
+                              department.text,
+                              organization.text,
+                              field.text,
+                              location.text,
+                              profession.text);
                       },
                       title: 'Create Department',
                       fontSize: 17,
@@ -72,5 +134,38 @@ class CreateDepartmentScreen extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  createDepartment(
+      context, department, organization, field, location, profession) async {
+    try {
+      setState(() {
+        isCreating = true;
+      });
+      creation.createDepartment(
+          departmentModel: Department(
+              department: department,
+              organization: organization,
+              field: field,
+              location: location,
+              profession: profession,
+              members: 0,
+              creationTime: dateTime));
+      setState(() {
+        isCreating = false;
+      });
+      Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(
+              builder: (context) => NavBarControllerScreen(
+                    initPageIndex: 2,
+                  )),
+          (route) => false);
+    } catch (e) {
+      setState(() {
+        isCreating = false;
+      });
+      showInfoAlert(context: context, title: 'An error occurred.');
+    }
   }
 }

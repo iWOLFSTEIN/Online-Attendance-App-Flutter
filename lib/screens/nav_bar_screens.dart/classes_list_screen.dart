@@ -1,40 +1,27 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:online_attendence_app/constants/network_objects.dart';
-import 'package:online_attendence_app/constants/user_constants.dart';
 import 'package:online_attendence_app/models/class.dart';
 import 'package:online_attendence_app/screens/add_student_screen.dart';
 import 'package:online_attendence_app/screens/attendance_screen.dart';
 import 'package:online_attendence_app/services/Firebase/deletion.dart';
 import 'package:online_attendence_app/services/Firebase/queries.dart';
-import 'package:online_attendence_app/utils/screen_dimensions.dart';
+import 'package:online_attendence_app/utils/stream_builder_states.dart';
 import 'package:online_attendence_app/widgets/attendance_card.dart';
 import 'package:online_attendence_app/widgets/exit_alert_dialogue.dart';
 
-class ClassesListScreen extends StatelessWidget {
+// ignore: must_be_immutable
+class ClassesListScreen extends StatefulWidget {
   ClassesListScreen({Key? key}) : super(key: key);
+
+  @override
+  State<ClassesListScreen> createState() => _ClassesListScreenState();
+}
+
+class _ClassesListScreenState extends State<ClassesListScreen> {
   Deletion deletion = Deletion();
+
   @override
   Widget build(BuildContext context) {
-    var deleteAction = () {
-      var alert = ExitAlertDialogue(
-        message: 'Delete this class?',
-        action: () {
-          deletion.deleteClass(classId: '');
-          Navigator.pop(context);
-        },
-      );
-      showDialog(
-          context: context,
-          builder: (context) {
-            return alert;
-          });
-    };
-    var addAction = () {
-      Navigator.push(
-          context, MaterialPageRoute(builder: (context) => AddStudentScreen()));
-    };
     var attendanceAction = () {
       Navigator.push(
           context,
@@ -56,26 +43,14 @@ class ClassesListScreen extends StatelessWidget {
       body: StreamBuilder(
           stream: getClasses,
           builder: (context, snapshot) {
-            if (!snapshot.hasData)
-              return Container(
-                child: Center(
-                  child: CircularProgressIndicator(),
-                ),
-              );
-
+            if (!snapshot.hasData) return loading();
             if (listEquals(snapshot.data!.docs, []))
-              return Container(
-                child: Center(
-                    child: Text(
-                  'No Classes Available',
-                  style: TextStyle(color: Color(0xFF06283D).withOpacity(0.4)),
-                )),
-              );
+              return info(message: 'No Classes Available');
 
             List<Widget> widgetsList = [];
             for (var document in snapshot.data!.docs) {
               final classModel = Class.fromDocument(document);
-              final classModelId = document.id;
+              final classId = document.id;
 
               var widget = AttendanceCard(
                   isClass: true,
@@ -84,7 +59,7 @@ class ClassesListScreen extends StatelessWidget {
                     var alert = ExitAlertDialogue(
                       message: 'Delete this class?',
                       action: () {
-                        deletion.deleteClass(classId: classModelId);
+                        deletion.deleteClass(classId: classId);
                         Navigator.pop(context);
                       },
                     );
@@ -96,9 +71,17 @@ class ClassesListScreen extends StatelessWidget {
                   },
                   program: classModel.program,
                   semester: classModel.semesterSection,
-                  members: 0,
+                  members: classModel.members!,
                   institution: classModel.schoolCollege!,
-                  addAction: addAction,
+                  addAction: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => AddStudentScreen(
+                                  members: classModel.members,
+                                  classId: classId,
+                                )));
+                  },
                   attendanceAction: attendanceAction);
 
               widgetsList.add(widget);

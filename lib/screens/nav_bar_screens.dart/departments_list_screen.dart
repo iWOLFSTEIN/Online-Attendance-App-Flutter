@@ -1,34 +1,26 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:online_attendence_app/models/department.dart';
 import 'package:online_attendence_app/screens/add_teacher_screen.dart';
 import 'package:online_attendence_app/screens/attendance_screen.dart';
+import 'package:online_attendence_app/services/Firebase/deletion.dart';
+import 'package:online_attendence_app/services/Firebase/queries.dart';
+import 'package:online_attendence_app/utils/stream_builder_states.dart';
 import 'package:online_attendence_app/widgets/attendance_card.dart';
 import 'package:online_attendence_app/widgets/exit_alert_dialogue.dart';
 
-class DepartmenstListScreen extends StatelessWidget {
-  const DepartmenstListScreen({Key? key}) : super(key: key);
+class DepartmenstListScreen extends StatefulWidget {
+  DepartmenstListScreen({Key? key}) : super(key: key);
+
+  @override
+  State<DepartmenstListScreen> createState() => _DepartmenstListScreenState();
+}
+
+class _DepartmenstListScreenState extends State<DepartmenstListScreen> {
+  Deletion deletion = Deletion();
 
   @override
   Widget build(BuildContext context) {
-    var title = 'Computer Science';
-    var members = 22;
-    var institution = 'Bahria University Karachi Campus';
-    var deleteAction = () {
-      var alert = ExitAlertDialogue(
-        message: 'Delete this class?',
-        action: () {
-          Navigator.pop(context);
-        },
-      );
-      showDialog(
-          context: context,
-          builder: (context) {
-            return alert;
-          });
-    };
-    var addAction = () {
-      Navigator.push(
-          context, MaterialPageRoute(builder: (context) => AddTeacherScreen()));
-    };
     var attendanceAction = () {
       Navigator.push(
           context,
@@ -47,26 +39,62 @@ class DepartmenstListScreen extends StatelessWidget {
           style: TextStyle(color: Colors.black),
         ),
       ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-          child: Column(
-            children: [
-              for (int i = 0; i < 3; i++)
-                AttendanceCard(
-                    isClass: false,
-                    title: title,
-                    semester: '7th',
-                    program: 'bscs',
-                    deleteAction: deleteAction,
-                    members: members,
-                    institution: institution,
-                    addAction: addAction,
-                    attendanceAction: attendanceAction)
-            ],
-          ),
-        ),
-      ),
+      body: StreamBuilder(
+          stream: getDepartments,
+          builder: (context, snapshot) {
+            if (!snapshot.hasData) return loading();
+            if (listEquals(snapshot.data!.docs, []))
+              return info(message: 'No Departments Available');
+
+            List<Widget> widgetsList = [];
+            for (var document in snapshot.data!.docs) {
+              final departmentModel = Department.fromDocument(document);
+              final departmentId = document.id;
+
+              var widget = AttendanceCard(
+                  isClass: false,
+                  title: departmentModel.department!,
+                  deleteAction: () {
+                    var alert = ExitAlertDialogue(
+                      message: 'Delete this department?',
+                      action: () {
+                        deletion.deleteDepartment(departmentId: departmentId);
+                        Navigator.pop(context);
+                      },
+                    );
+                    showDialog(
+                        context: context,
+                        builder: (context) {
+                          return alert;
+                        });
+                  },
+                  program: departmentModel.field,
+                  semester: departmentModel.location,
+                  members: departmentModel.members!,
+                  institution: departmentModel.organization!,
+                  addAction: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => AddTeacherScreen(
+                                  departmentId: departmentId,
+                                  members: departmentModel.members,
+                                )));
+                  },
+                  attendanceAction: attendanceAction);
+
+              widgetsList.add(widget);
+            }
+            return SingleChildScrollView(
+              child: Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+                child: Column(
+                  children: widgetsList,
+                ),
+              ),
+            );
+          }),
     );
   }
 }

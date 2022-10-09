@@ -147,6 +147,7 @@ class _CreateClassScreenState extends State<CreateClassScreen> {
               program: program,
               subject: subject,
               session: session,
+              members: 0,
               creationTime: dateTime));
       setState(() {
         isCreating = false;

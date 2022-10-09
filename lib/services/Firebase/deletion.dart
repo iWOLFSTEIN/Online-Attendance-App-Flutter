@@ -11,4 +11,13 @@ class Deletion {
         .doc(classId)
         .delete();
   }
+
+  deleteDepartment({required departmentId}) async {
+    await firebaseFirestore
+        .collection('users')
+        .doc(uid)
+        .collection('departments')
+        .doc(departmentId)
+        .delete();
+  }
 }
