@@ -1,99 +1,209 @@
 import 'package:flutter/material.dart';
+import 'package:online_attendence_app/provider/data_provider.dart';
 import 'package:online_attendence_app/screens/create_class_screen.dart';
 import 'package:online_attendence_app/screens/create_department_screen.dart';
 import 'package:online_attendence_app/screens/generate_report_screen.dart';
 import 'package:online_attendence_app/utils/screen_dimensions.dart';
 import 'package:online_attendence_app/widgets/custom_app_bar.dart';
 import 'package:online_attendence_app/widgets/custom_text_button.dart';
+import 'package:provider/provider.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
 
   @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  bool isBottomContainerVisible = false;
+  bool isBottomContainerContentVisible = false;
+  @override
   Widget build(BuildContext context) {
+    var dataProvider = Provider.of<DataProvider>(context);
     return Scaffold(
       backgroundColor: Color(0xFFEAF6F6),
       body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              CustomAppBar(),
-              Container(
-                height: height(context) * 30 / 100,
-                padding:
-                    EdgeInsets.only(right: 15, left: 25, top: 20, bottom: 20),
-                width: width(context),
-                decoration: BoxDecoration(
-                    color: Color(0xFF06283D),
-                    borderRadius: BorderRadius.all(Radius.circular(20))),
-                child: Row(
-                  children: [
-                    Expanded(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'Attendance Online',
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.w600,
-                                fontSize: 28),
-                          ),
-                          textItem('Keep Records'),
-                          textItem('Generate Reports'),
-                          textItem('Realtime Attendance'),
-                        ],
-                      ),
-                    ),
-                    Expanded(
-                      child: Image.asset(
-                        'images/attendance_list.png',
-                        height: 130,
-                        width: 130,
-                      ),
-                    )
-                  ],
-                ),
-              ),
-              Row(
+        child: Stack(
+          children: [
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 0),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  categoryContainer(context, 'images/student.png', 'Students',
-                      'Teachers create classes and add students in each class',
-                      () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => CreateClassScreen()));
-                  }),
-                  SizedBox(
-                    width: 10,
+                  CustomAppBar(),
+                  Container(
+                    height: height(context) * 30 / 100,
+                    padding: EdgeInsets.only(
+                        right: 15, left: 25, top: 20, bottom: 20),
+                    width: width(context),
+                    decoration: BoxDecoration(
+                        color: Color(0xFF06283D),
+                        borderRadius: BorderRadius.all(Radius.circular(20))),
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                'Attendance Online',
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.w600,
+                                    fontSize: 28),
+                              ),
+                              textItem('Keep Records'),
+                              textItem('Generate Reports'),
+                              textItem('Realtime Attendance'),
+                            ],
+                          ),
+                        ),
+                        Expanded(
+                          child: Image.asset(
+                            'images/attendance_list.png',
+                            height: 130,
+                            width: 130,
+                          ),
+                        )
+                      ],
+                    ),
                   ),
-                  categoryContainer(context, 'images/teacher.png', 'Teachers',
-                      'Attendant create departments and add their respective employees',
-                      () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => CreateDepartmentScreen()));
-                  }),
+                  Row(
+                    children: [
+                      categoryContainer(
+                          context,
+                          'images/student.png',
+                          'Students',
+                          'Teachers create classes and add students in each class',
+                          () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => CreateClassScreen()));
+                      }),
+                      SizedBox(
+                        width: 10,
+                      ),
+                      categoryContainer(
+                          context,
+                          'images/teacher.png',
+                          'Teachers',
+                          'Attendant create departments and add their respective employees',
+                          () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                    CreateDepartmentScreen()));
+                      }),
+                    ],
+                  ),
+                  CustomTextButton(
+                    buttonHeight: height(context) * 8 / 100,
+                    action: () {
+                      setState(() {
+                        isBottomContainerVisible = true;
+                      });
+                      Future.delayed(Duration(milliseconds: 200), () {
+                        setState(() {
+                          isBottomContainerContentVisible = true;
+                        });
+                      });
+                    },
+                    title: 'Generate Report',
+                    fontSize: 17,
+                  )
                 ],
               ),
-              CustomTextButton(
-                buttonHeight: height(context) * 8 / 100,
-                action: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => GenerateReportScreen()));
-                },
-                title: 'Generate Report',
-                fontSize: 17,
-              )
-            ],
-          ),
+            ),
+            Align(
+              alignment: Alignment.bottomCenter,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  (isBottomContainerVisible)
+                      ? Expanded(
+                          child: GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              isBottomContainerContentVisible = false;
+                              isBottomContainerVisible = false;
+                            });
+                          },
+                          child: Container(
+                            color: Colors.green.withOpacity(0.0),
+                          ),
+                        ))
+                      : Container(),
+                  AnimatedContainer(
+                    duration: Duration(milliseconds: 200),
+                    width: double.infinity,
+                    height: (isBottomContainerVisible) ? 150 : 0,
+                    decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(30),
+                            topRight: Radius.circular(30))),
+                    child: (isBottomContainerContentVisible)
+                        ? Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 20),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                bottomContainerButton(
+                                    title: 'Class',
+                                    action: () {
+                                      dataProvider.isClass = true;
+                                      gotoGenerateReportScreen();
+                                    }),
+                                SizedBox(
+                                  height: 10,
+                                ),
+                                bottomContainerButton(
+                                    title: 'Department',
+                                    action: () {
+                                      dataProvider.isClass = false;
+                                      gotoGenerateReportScreen();
+                                    }),
+                              ],
+                            ),
+                          )
+                        : Container(),
+                  ),
+                ],
+              ),
+            )
+          ],
+        ),
+      ),
+    );
+  }
+
+  gotoGenerateReportScreen() {
+    Navigator.push(context,
+        MaterialPageRoute(builder: (context) => GenerateReportScreen()));
+    setState(() {
+      isBottomContainerContentVisible = false;
+      isBottomContainerVisible = false;
+    });
+  }
+
+  Container bottomContainerButton({required title, required action}) {
+    return Container(
+      height: 50,
+      width: double.infinity,
+      decoration: BoxDecoration(
+          color: Color(0xFFDFF6FF),
+          borderRadius: BorderRadius.all(
+            Radius.circular(20),
+          )),
+      child: TextButton(
+        onPressed: action,
+        child: Text(
+          title,
+          style: TextStyle(fontSize: 17),
         ),
       ),
     );

@@ -79,3 +79,25 @@ Stream getTeachersAttendances({required departmentId}) {
       .orderBy('creationTime', descending: true)
       .snapshots();
 }
+
+Future getStudentsAttendancesFutureData({required classId}) {
+  return firebaseFirestore
+      .collection('users')
+      .doc(uid)
+      .collection('classes')
+      .doc(classId)
+      .collection('attendances')
+      .orderBy('creationTime', descending: true)
+      .get();
+}
+
+Future getTeachersAttendancesFutureData({required departmentId}) {
+  return firebaseFirestore
+      .collection('users')
+      .doc(uid)
+      .collection('departments')
+      .doc(departmentId)
+      .collection('attendances')
+      .orderBy('creationTime', descending: true)
+      .get();
+}

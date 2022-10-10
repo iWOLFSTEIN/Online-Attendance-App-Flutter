@@ -64,10 +64,12 @@ class _DepartmentAttendanceScreenState
               var dateTime = DateTime.now();
               var creationTime = attendanceModel.creationTime;
 
-              var timeDifference = dateTime.difference(creationTime!).inHours;
+              bool sameDay = dateTime.day == creationTime!.day;
+              bool sameMonth = dateTime.month == creationTime.month;
+              bool sameYear = dateTime.year == creationTime.year;
 
               var widget = AttendanceListTile(
-                  i: (timeDifference <= 24) ? 0 : 1,
+                  i: (sameYear && sameMonth && sameDay) ? 0 : 1,
                   action: () {
                     Navigator.push(
                         context,

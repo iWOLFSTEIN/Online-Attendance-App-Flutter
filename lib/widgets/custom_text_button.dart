@@ -10,7 +10,7 @@ class CustomTextButton extends StatelessWidget {
       : super(key: key);
 
   final double buttonHeight;
-  final Null Function() action;
+  final Function() action;
   final String title;
   final double fontSize;
 
