@@ -237,7 +237,7 @@ class _GenerateReportScreenState extends State<GenerateReportScreen> {
                                 if (attendanceCount != 0) {
                                   DateTime dateTime = DateTime.now();
                                   final path = await getAppDirectory() +
-                                      '/file${dateTime.microsecondsSinceEpoch}';
+                                      '/file${dateTime.microsecondsSinceEpoch}.pdf';
                                   final file = File(path);
                                   await file
                                       .writeAsBytes(await pdf.save())
